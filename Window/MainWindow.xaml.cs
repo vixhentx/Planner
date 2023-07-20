@@ -452,16 +452,6 @@ namespace Planner
             textTabFilter.Text=timeItem.Filter.ToString();
         }
 
-        private void eventBar_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            selected = MergedSelections.EventBar;
-            timeBar.SelectedIndex = -1;
-            timeBar.SelectedItem = null;
-            EventItem eventItem = (EventItem)eventBar.SelectedItem;
-            if (eventItem == null) return;
-            textTabHeight.Text = eventItem.TabHeight.ToString();
-            textTabFilter.Text = eventItem.Filter.ToString();
-        }
 
 
         private void listboxFilter_MouseDoubleClick(object sender, MouseButtonEventArgs e)
