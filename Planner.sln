@@ -5,6 +5,8 @@ VisualStudioVersion = 17.1.32421.90
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Planner", "Planner.csproj", "{A0A0FE34-0164-4101-B652-99D196A51909}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "PlannerSetup", "..\PlannerSetup\PlannerSetup.vdproj", "{67F411F8-943C-474F-84A7-A907A97A6A2A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,8 @@ Global
 		{A0A0FE34-0164-4101-B652-99D196A51909}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A0A0FE34-0164-4101-B652-99D196A51909}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A0A0FE34-0164-4101-B652-99D196A51909}.Release|Any CPU.Build.0 = Release|Any CPU
+		{67F411F8-943C-474F-84A7-A907A97A6A2A}.Debug|Any CPU.ActiveCfg = Debug
+		{67F411F8-943C-474F-84A7-A907A97A6A2A}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

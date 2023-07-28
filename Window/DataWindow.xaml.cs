@@ -12,7 +12,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using Window = HandyControl.Controls.Window;
 using MessageBox = HandyControl.Controls.MessageBox;
 
 namespace Planner
@@ -20,7 +19,7 @@ namespace Planner
     /// <summary>
     /// DataWindow.xaml 的交互逻辑
     /// </summary>
-    public partial class DataWindow : Window
+    public partial class DataWindow : HandyControl.Controls.Window
     {
         public DataWindow()
         {

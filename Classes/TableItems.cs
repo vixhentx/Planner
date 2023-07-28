@@ -1,28 +1,31 @@
 ﻿namespace Planner.Classes
 {
-    public class TimeItem
+    public class VBarItem
     {
-        public string Time { get; set; }
+        public string Value { get; set; }
         public string Filter { get; set; }
         public int TabHeight { get; set; }
-        public double Height => TabHeight * ((double)App.Current.FindResource("CellHeight") + 4) - 4;//+4用来同步broder;
-    }
-    public class EventItem
-    {
-        public string Event { get; set; }
-        public string Filter { get; set; }
-        public int TabHeight { get; set; }
-        public double Height => TabHeight * ((double)App.Current.FindResource("CellHeight")+4)-4;//+4用来同步broder
+        public double Height => (TabHeight * ((double)App.Current.FindResource("CellHeight")) + (TabHeight - 1) * 4);//用来对齐
+        public VBarItem()
+        {
+            Filter = string.Empty;
+            TabHeight = 1;
+        }
+        public bool ShouldSerializeHeight()
+        {
+            return false;
+        }
     }
     public class WeekItem
     {
+
         public string Monday { get; set; }
         public string Tuesday { get; set; }
         public string Wednesday { get; set; }
         public string Thursday { get; set; }
         public string Friday { get; set; }
         public double Height => (double)App.Current.FindResource("CellHeight");
-        public void SetFromIndex(int i,string value)
+        public void SetFromIndex(int i, string value)
         {
             switch (i)
             {
@@ -45,27 +48,37 @@
         }
         public string GetFromIndex(int i)
         {
-            string ret=string.Empty;
+            string ret = string.Empty;
             switch (i)
             {
                 case 0:
-                    ret=Monday;
+                    ret = Monday;
                     break;
                 case 1:
-                    ret=Tuesday ;
+                    ret = Tuesday;
                     break;
                 case 2:
-                    ret=Wednesday ;
+                    ret = Wednesday;
                     break;
                 case 3:
-                    ret=Thursday ;
+                    ret = Thursday;
                     break;
                 case 4:
-                    ret=Friday ;
+                    ret = Friday;
                     break;
             }
             return ret;
         }
         public string Filter { get; set; }
+
+        public WeekItem()
+        {
+            Filter = string.Empty;
+        }
+        public bool ShouldSerializeHeight()
+        {
+            return false;
+        }
     }
+
 }

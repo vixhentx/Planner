@@ -8,7 +8,7 @@
         Title="数据导入" Height="450" Width="450">
     <Grid>
         <Label Content="在下方依次输入 姓名 学号 性别 宿舍 ，以\t分隔（excel复制粘贴自带此分隔符）" HorizontalAlignment="Stretch" VerticalAlignment="Top" />
-        <TextBox x:Name="textInput" Margin="5,25,5,45" AcceptsReturn="True" TextAlignment="Justify"/>
+        <TextBox x:Name="textInput" Margin="5,25,5,45" AcceptsReturn="True"/>
         <Button x:Name="btnImport" Content="确定" VerticalAlignment="Bottom" Margin="5,10,5,10" Click="btnImport_Click" HorizontalAlignment="Stretch"/>
     </Grid>
 </hc:Window>

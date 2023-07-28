@@ -1,0 +1,100 @@
+{
+  "id": "3962174",
+  "name": "Planner",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "5387553",
+      "name": "搜索",
+      "font_class": "sousuo",
+      "unicode": "eafe",
+      "unicode_decimal": 60158
+    },
+    {
+      "icon_id": "6966959",
+      "name": "粘贴",
+      "font_class": "niantie",
+      "unicode": "e639",
+      "unicode_decimal": 58937
+    },
+    {
+      "icon_id": "5387375",
+      "name": "编辑表格",
+      "font_class": "bianjibiaoge",
+      "unicode": "eabc",
+      "unicode_decimal": 60092
+    },
+    {
+      "icon_id": "5387384",
+      "name": "复制",
+      "font_class": "fuzhi",
+      "unicode": "eac1",
+      "unicode_decimal": 60097
+    },
+    {
+      "icon_id": "5387386",
+      "name": "剪切",
+      "font_class": "jianqie",
+      "unicode": "eac2",
+      "unicode_decimal": 60098
+    },
+    {
+      "icon_id": "5387539",
+      "name": "品类减少",
+      "font_class": "pinleijianshao",
+      "unicode": "eaf9",
+      "unicode_decimal": 60153
+    },
+    {
+      "icon_id": "5387540",
+      "name": "品类删除",
+      "font_class": "pinleishanchu",
+      "unicode": "eafa",
+      "unicode_decimal": 60154
+    },
+    {
+      "icon_id": "5387541",
+      "name": "品类增加",
+      "font_class": "pinleizengjia",
+      "unicode": "eafb",
+      "unicode_decimal": 60155
+    },
+    {
+      "icon_id": "5387543",
+      "name": "删除",
+      "font_class": "shanchu",
+      "unicode": "eafc",
+      "unicode_decimal": 60156
+    },
+    {
+      "icon_id": "15534436",
+      "name": "ic-template",
+      "font_class": "ic-template",
+      "unicode": "e7a1",
+      "unicode_decimal": 59297
+    },
+    {
+      "icon_id": "1962853",
+      "name": "icon_ customer management ",
+      "font_class": "icon_customermanagement",
+      "unicode": "e858",
+      "unicode_decimal": 59480
+    },
+    {
+      "icon_id": "9385942",
+      "name": "datamap",
+      "font_class": "datamap",
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    },
+    {
+      "icon_id": "15534375",
+      "name": "ic-planner",
+      "font_class": "ic-planner",
+      "unicode": "e78b",
+      "unicode_decimal": 59275
+    }
+  ]
+}

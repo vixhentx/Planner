@@ -5,112 +5,170 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Planner"
         mc:Ignorable="d" xmlns:hc="https://handyorg.github.io/handycontrol"
-        Title="东莞实验中学值周安排器2023" Height="768" Width="1024" Drop="Window_Drop" AllowDrop="True" Closing="Window_Closing"  >
-    <hc:Window.Resources>
-    </hc:Window.Resources>
+        Title="东莞实验中学值周安排器2023" Height="768" Width="1024" Drop="Window_Drop" AllowDrop="True" Closing="Window_Closing" WindowState="Maximized" Icon="/Arts/Ico/MainIcon.ico">
+    <hc:Window.CommandBindings>
+        <CommandBinding Command="ApplicationCommands.Copy" Executed="Copy_Executed"/>
+        <CommandBinding Command="ApplicationCommands.Cut" Executed="Cut_Executed"/>
+        <CommandBinding Command="ApplicationCommands.Paste" Executed="Paste_Executed"/>
+        <CommandBinding Command="ApplicationCommands.Delete" Executed="Delete_Executed"/>
+        <CommandBinding Command="ApplicationCommands.Save" Executed="Save_Executed"/>
+        <CommandBinding Command="ApplicationCommands.SaveAs" Executed="SaveAs_Executed"/>
+        <CommandBinding Command="ApplicationCommands.Open" Executed="Open_Executed"/>
+        <CommandBinding Command="ApplicationCommands.SelectAll" Executed="SelectAll_Executed"/>
+        <CommandBinding Command="ApplicationCommands.Undo" Executed="Undo_Executed" CanExecute="Undo_CanExecute"/>
+        <CommandBinding Command="ApplicationCommands.Redo" Executed="Redo_Executed" CanExecute="Redo_CanExecute"/>
+
+    </hc:Window.CommandBindings>
+    <hc:Window.ContextMenu>
+        <ContextMenu>
+            <MenuItem Header="剪切(_X)" Command="ApplicationCommands.Cut"/>
+            <MenuItem Header="复制(_C)" Command="ApplicationCommands.Copy"/>
+            <MenuItem Header="粘贴(_V)" Command="ApplicationCommands.Paste"/>
+            <MenuItem Header="删除(_D)" Command="ApplicationCommands.Delete"/>
+            <MenuItem Header="全选(_A)" Command="ApplicationCommands.SelectAll"/>
+            <MenuItem Header="撤销(_Z)" Command="ApplicationCommands.Undo"/>
+            <MenuItem Header="重做(_Y)" Command="ApplicationCommands.Redo"/>
+        </ContextMenu>
+    </hc:Window.ContextMenu>
     <Grid>
-        <DockPanel>
+        <DockPanel x:Name="mainPanel">
             <Menu DockPanel.Dock="Top" VerticalAlignment="Top" >
                 <MenuItem Header="文件(_F)">
-                    <MenuItem x:Name="btnOpen" Header="打开(_O)" Click="btnOpen_Click"/>
-                    <MenuItem x:Name="btnSave" Header="保存(_S)" Click="btnSave_Click"/>
-                    <MenuItem x:Name="btnSaveAs" Header="另存为(_A)" Click="btnSaveAs_Click"/>
+                    <MenuItem Header="打开(_O)" Command="ApplicationCommands.Open"/>
+                    <MenuItem Header="保存(_S)" Command="ApplicationCommands.Save"/>
+                    <MenuItem Header="另存为(_A)" Command="ApplicationCommands.SaveAs"/>
                 </MenuItem>
                 <MenuItem Header="编辑(_E)">
-                    <MenuItem x:Name="btnCopy" Header="复制(Ctrl+_C)" Click="btnCopy_Click"/>
-                    <MenuItem x:Name="btnPaste" Header="粘贴(Ctrl+_V)" Click="btnPaste_Click"/>
+                    <MenuItem Header="剪切(_X)" Command="ApplicationCommands.Cut"/>
+                    <MenuItem Header="复制(_C)" Command="ApplicationCommands.Copy"/>
+                    <MenuItem Header="粘贴(_V)" Command="ApplicationCommands.Paste"/>
+                    <MenuItem Header="删除(_D)" Command="ApplicationCommands.Delete"/>
+                    <MenuItem Header="全选(_A)" Command="ApplicationCommands.SelectAll"/>
+                    <MenuItem Header="撤销(_Z)" Command="ApplicationCommands.Undo"/>
+                    <MenuItem Header="重做(_Y)" Command="ApplicationCommands.Redo"/>
+                </MenuItem>
+                <MenuItem Header="视图(_V)">
+                    <MenuItem x:Name="btnHideLeft" Header="显示学生栏(_L)" IsCheckable="True" IsChecked="True" Click="btnHideLeft_Click"/>
+                    <MenuItem x:Name="btnHideRight" Header="显示设置栏(_R)" IsCheckable="True" IsChecked="True" Click="btnHideRight_Click"/>
+                    <MenuItem x:Name="btnResetView" Header="恢复默认设置(_S)" Click="btnResetView_Click"/>
                 </MenuItem>
                 <MenuItem Header="数据(_D)">
                     <MenuItem x:Name="btnData" Header="导入学生信息(_I)"  Click="btnData_Click"/>
                     <MenuItem x:Name="btnCreateTable" Header="导出为表格(_T)" Click="btnCreateTable_Click"/>
                 </MenuItem>
                 <MenuItem x:Name="btnHelp" Header="帮助(H)" Click="btnHelp_Click" />
+                <MenuItem Header="调试(_T)">
+                    <MenuItem x:Name="btnTestLoading" Header="Loading 3秒钟" Click="btnTestLoading_Click"/>
+                    <MenuItem x:Name="btnTestAbsRandom" Header="绝对随机安排" Click="btnTestAbsRandom_Click"/>
+                    <MenuItem x:Name="btnWeekBarMultiTest" Header="weekBar多选测试" Click="btnWeekBarMultiTest_Click"/>
+                    <MenuItem x:Name="btnClearStack" Header="清空Action栈" Click="btnClearStack_Click"/>
+                </MenuItem>
             </Menu>
             <Grid>
-                <Grid x:Name="gridProperty">
-                    <hc:TextBox x:Name="textNameFilter" ToolTip="输入姓名或学号以搜索" VerticalAlignment="Top" Margin="5" TextChanged="textNameFilter_TextChanged"/>
-                    <DataGrid x:Name="listboxFilter" VerticalAlignment="Stretch" Margin="5,40,5,25" AutoGenerateColumns="True" CanUserDeleteRows="True" MouseDoubleClick="listboxFilter_MouseDoubleClick" IsReadOnly="True">
+                <Grid x:Name="gridProperty" Visibility="{Binding IsChecked, ElementName=btnHideLeft}">
+                    <hc:TextBox x:Name="textNameFilter" ToolTip="输入姓名或学号以搜索" VerticalAlignment="Top" Margin="5,5,5,5" TextChanged="textNameFilter_TextChanged"/>
+                    <DataGrid x:Name="listboxFilter" VerticalAlignment="Stretch" Margin="5,40,5,25" AutoGenerateColumns="False" MouseDoubleClick="listboxFilter_MouseDoubleClick" IsReadOnly="True" GotFocus="listboxFilter_GotFocus">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="姓名" Binding="{Binding Name}"/>
+                            <DataGridTextColumn Header="学号" Binding="{Binding Id}"/>
+                            <DataGridTextColumn Header="性别" Binding="{Binding Sex}"/>
+                            <DataGridTextColumn Header="宿舍" Binding="{Binding Room}"/>
+                        </DataGrid.Columns>
                     </DataGrid>
-                    <StackPanel Orientation="Horizontal" Margin="5" Height="20" HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
+                    <StackPanel Orientation="Horizontal" Margin="5" HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
                         <StackPanel.Resources>
-                            <Style TargetType="Button" BasedOn="{StaticResource ButtonDefault.Small}">
-                                
+                            <Style TargetType="Button" BasedOn="{StaticResource ButtonGroupItemSingle}">
+                                <Setter Property="FontFamily" Value="\Arts\Font\#iconfont"/>
                             </Style>
                         </StackPanel.Resources>
-                        <Button x:Name="btnAddData" Content="+" Width="20" Height="20" ToolTip="添加数据" Click="btnAddData_Click"/>
-                        <Button x:Name="btnRemoveData" Content="-" Width="20" Height="20" ToolTip="删除数据" Click="btnRemoveData_Click"/>
-                        <Button x:Name="btnCopyData" Content="c" Width="20" Height="20" ToolTip="复制" Click="btnCopyData_Click"/>
-                        <Button x:Name="btnMoveData" Content="x" Width="20" Height="20" ToolTip="剪切" Click="btnMoveData_Click"/>
-                        <Button x:Name="btnPasteData" Content="v" Width="20" Height="20" ToolTip="粘贴" Click="btnPasteData_Click"/>
-                        <Button x:Name="btnClearData" Content="D" Width="20" Height="20" ToolTip="清除" Click="btnClearData_Click"/>
-                        <Button x:Name="btnClearEmpty" Content="E" Width="20" Height="20" ToolTip="删除空行" Click="btnClearEmpty_Click"/>
-                        <Button x:Name="btnDisableEdit" Content="Ed" Width="30" Height="20" ToolTip="启用/禁用编辑" Click="btnDisableEdit_Click"/>
+                        <Button x:Name="btnAddData" Content="&#xeafb;"  ToolTip="添加数据" Click="btnAddData_Click"/>
+                        <Button x:Name="btnRemoveData" Content="&#xeaf9;"  ToolTip="删除数据" Click="btnRemoveData_Click"/>
+                        <Button x:Name="btnCopyData" Content="&#xeac1;"  ToolTip="复制" Click="btnCopyData_Click"/>
+                        <Button x:Name="btnMoveData" Content="&#xeac2;"  ToolTip="剪切" Click="btnMoveData_Click"/>
+                        <Button x:Name="btnPasteData" Content="&#xe639;"  ToolTip="粘贴" Click="btnPasteData_Click"/>
+                        <Button x:Name="btnClearData" Content="&#xeafc;"  ToolTip="清除" Click="btnClearData_Click"/>
+                        <Button x:Name="btnClearEmpty" Content="&#xeafa;"  ToolTip="删除空行" Click="btnClearEmpty_Click"/>
+                        <ToggleButton x:Name="btnDisableEdit" FontFamily="\Arts\Font\#iconfont" Content="&#xeabc;"  ToolTip="启用/禁用编辑" IsChecked="False" Click="btnDisableEdit_Click"/>
+                        <ToggleButton x:Name="btnLockView" FontFamily="\Arts\Font\#iconfont" Content="&#xeac3;"  ToolTip="启用/禁用锁定视图" IsChecked="False" Click="btnLockView_Click"/>
                     </StackPanel>
                 </Grid>
             </Grid>
-            <hc:Divider Width="5"/>
             <StatusBar DockPanel.Dock="Bottom" Name="statbar">
                 <StatusBarItem>
                     <StackPanel Orientation="Horizontal">
                         <Label Content="当前选中列:" BorderThickness="0"/>
-                        <TextBlock x:Name="statSelX" Width="60" TextAlignment="Center"/>
+                        <TextBlock x:Name="statSelX" Width="60" TextAlignment="Left" d:Text="100" Height="16"/>
                         <Label Content="当前选中行:" BorderThickness="0"/>
-                        <TextBlock x:Name="statSelY" Width="60" TextAlignment="Center"/>
+                        <TextBlock x:Name="statSelY" Width="60" TextAlignment="Left" d:Text="100" Height="16"/>
                         <Label Content="当前限制条件:" BorderThickness="0"/>
-                        <TextBlock x:Name="statFilter" Width="240" TextAlignment="Center"/>
+                        <TextBlock x:Name="statFilter" Width="240" TextAlignment="Left" d:Text="Test" Height="16"/>
                     </StackPanel>
                 </StatusBarItem>
             </StatusBar>
-            <StackPanel x:Name="gridPanel" DockPanel.Dock="Right" Width="160">
+            <StackPanel x:Name="gridPanel" DockPanel.Dock="Right" Visibility="{Binding IsChecked, ElementName=btnHideRight}">
                 <StackPanel.Resources>
-                    <Style TargetType="Button" BasedOn="{StaticResource ButtonDefault.Small}">
+                    <Style TargetType="Button" BasedOn="{StaticResource ButtonPrimary}">
                         <Setter Property="HorizontalAlignment" Value="Stretch"/>
                     </Style>
-                    <Style TargetType="Label" BasedOn="{StaticResource LabelDefault.Small}">
+                    <Style TargetType="Label" BasedOn="{StaticResource LabelInfo.Small}">
                         <Setter Property="HorizontalAlignment" Value="Left"/>
                     </Style>
+                    <Style TargetType="GroupBox" BasedOn="{StaticResource GroupBoxOriginal}"/>
                 </StackPanel.Resources>
-                <GroupBox Header="属性" Margin="3">
+                <GroupBox x:Name="groupbox_TimeEvent" Margin="3">
+                    <GroupBox.Header>
+                        <Grid>
+                            <TextBlock x:Name="textTEHeader" Text="时间/事件"/>
+                            <CheckBox x:Name="checkboxTEViewLock" Content="&#xeac3;" FontFamily="\Arts\Font\#iconfont" HorizontalAlignment="Left" ToolTip="保持面板锁定" Margin="60,0,0,0"/>
+                        </Grid>
+                    </GroupBox.Header>
                     <StackPanel>
                         <Grid>
+                            <Label Content="_单元行值:" Target="{Binding ElementName=textTabValue}"/>
+                            <TextBox x:Name="textTabValue" VerticalAlignment="Top" Margin="65,2,2,0"/>
+                        </Grid>
+                        <Grid>
                             <Label Content="_占用行数:" Target="{Binding ElementName=textTabHeight}"/>
-                            <TextBox x:Name="textTabHeight" VerticalAlignment="Top" Margin="60,2,2,0" Text="1"/>
+                            <hc:NumericUpDown x:Name="textTabHeight" VerticalAlignment="Top" Margin="65,2,2,0" Value="1" Minimum="1"/>
                         </Grid>
                         <Grid>
                             <Label Content="_限制条件:" Target="{Binding ElementName=textTabFilter}"/>
-                            <TextBox x:Name="textTabFilter" VerticalAlignment="Top" Margin="60,2,2,0"/>
+                            <TextBox x:Name="textTabFilter" VerticalAlignment="Top" Margin="65,2,2,0"/>
                         </Grid>
-                        <Button x:Name="btnConfirmPrep" Content="修改选中项" Margin="2" Click="btnConfirmPrep_Click"/>
-                        <Button x:Name="btnAddTimeBar" Content="添加时间项" Margin="2" Click="btnAddTimeBar_Click"/>
-                        <Button x:Name="btnAddEventBar" Content="添加事件项"  Margin="2" Click="btnAddEventBar_Click"/>
+
+                        <Button x:Name="btnConfirmPrep" Content="&lt;-修改" Margin="2" Click="btnConfirmPrep_Click" Style="{StaticResource ButtonWarning}" HorizontalAlignment="Stretch" IsDefault="True"/>
+                        <Button x:Name="btnDeleteSelBar" Content="&lt;-删除" Margin="2" Click="btnDeleteSelBar_Click" Style="{StaticResource ButtonDanger}" HorizontalAlignment="Stretch"/>
+                        <Button x:Name="btnInsSelBar" Content="&lt;-插入" Margin="2" Click="btnInsSelBar_Click"/>
+                        <Button x:Name="btnAddSelBar" Content="&lt;-追加" Margin="2" Click="btnAddSelBar_Click"/>
                     </StackPanel>
                 </GroupBox>
                 <GroupBox Header="站岗管理" Margin="3">
                     <StackPanel>
-                        <Button x:Name="btnAddStudent" Content="&lt;-将选中的学生填入" Height="20" Margin="2" Click="btnAddStudent_Click"/>
-                        <Button x:Name="btnSwapStudent" Content="&lt;-将选中的学生交换" Height="20" Margin="2" Click="btnSwapStudent_Click" Visibility="Collapsed"/>
-                        <Button x:Name="btnAutoPlan" Content="&lt;-自动安排空余位置" Height="20" Margin="2" Click="btnAutoPlan_Click"/>
-                        <Button x:Name="btnFlashFilter" Content="补全限制条件" Height="20" Margin="2" Click="btnFlashFilter_Click"/>
-                        <Button x:Name="btnGenTable" Content="补全值周行" Height="20" Margin="2" Click="btnGenTable_Click"/>
-                        <Button x:Name="btnClearTable" Content="清空值周行" Height="20" Margin="2" Click="btnClearTable_Click"/>
+                        <Button x:Name="btnAddStudent" Content="&lt;-将选中的学生填入"  Margin="2" Click="btnAddStudent_Click"/>
+                        <Button x:Name="btnSwapStudent" Content="&lt;-将选中的学生交换"  Margin="2" Click="btnSwapStudent_Click" Visibility="Collapsed"/>
+                        <Button x:Name="btnAutoPlan" Content="&lt;-自动安排空余位置"  Margin="2" Click="btnAutoPlan_Click"/>
+                        <Button x:Name="btnFlashFilter" Content="同步限制条件"  Margin="2" Click="btnFlashFilter_Click" Style="{StaticResource ButtonSuccess}" HorizontalAlignment="Stretch"/>
+                        <Button x:Name="btnGenTable" Content="补全值周行"  Margin="2" Click="btnGenTable_Click" Style="{StaticResource ButtonSuccess}" HorizontalAlignment="Stretch"/>
+                        <Button x:Name="btnClearTable" Content="清空值周行" Margin="2" Click="btnClearTable_Click" Style="{StaticResource ButtonDanger}" HorizontalAlignment="Stretch"/>
                     </StackPanel>
                 </GroupBox>
                 <GroupBox Header="显示设置" Margin="3">
                     <StackPanel>
                         <Grid>
                             <Label Content="_字号:" Target="{Binding ElementName=textFontSize}"/>
-                            <TextBox x:Name="textFontSize" VerticalAlignment="Top" Height="21" Margin="45,2,2,0" Text="32"/>
+                            <hc:NumericUpDown x:Name="textFontSize" VerticalAlignment="Top" Height="21" Margin="45,2,2,0" Value="{DynamicResource FontSize}" Minimum="16"/>
                         </Grid>
                         <Grid>
                             <Label Content="_行高:" Target="{Binding ElementName=textCellHeight}"/>
-                            <TextBox x:Name="textCellHeight" VerticalAlignment="Top" Height="21" Margin="45,2,2,0" Text="60"/>
+                            <hc:NumericUpDown x:Name="textCellHeight" VerticalAlignment="Top" Height="21" Margin="45,2,2,0" Value="{DynamicResource CellHeight}" Minimum="32"/>
                         </Grid>
                         <Button x:Name="btnDisplayApply" Content="应用" Click="btnDisplayApply_Click"/>
                     </StackPanel>
                 </GroupBox>
             </StackPanel>
 
-            <ScrollViewer>
+            <hc:ScrollViewer x:Name="scrollMainPanel" CanContentScroll="False" PreviewMouseWheel="ScrollMainPanel_PreviewMouseWheel">
+
                 <Grid>
                     <Grid.Resources>
                         <Style TargetType="{x:Type DataGrid}" BasedOn="{StaticResource DataGridBaseStyle}">
@@ -138,26 +196,53 @@
                         </Style>
                     </Grid.Resources>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="100"/>
-                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="200"/>
+                        <ColumnDefinition Width="200"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <DataGrid x:Name="timeBar" Grid.Column="0" ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Hidden" AutoGenerateColumns="False" CanUserAddRows="False" SelectionChanged="timeBar_SelectionChanged">
+
+                    <DataGrid x:Name="timeBar" Grid.Column="0" ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Hidden" AutoGenerateColumns="False" CanUserAddRows="False" GotFocus="timeBar_GotFocus" SelectionMode="Extended" ClipboardCopyMode="None" CellEditEnding="VBar_CellEditEnding" PreviewMouseWheel="ScrollMainPanel_PreviewMouseWheel">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Width="*" Header="时间" Binding="{Binding Time}"/>
+                            <DataGridTextColumn Width="*" Header="时间" Binding="{Binding Value}">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="TextWrapping" Value="Wrap"/>
+                                        <Setter Property="TextTrimming" Value="WordEllipsis"/>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
                         </DataGrid.Columns>
+                        <DataGrid.CommandBindings>
+                            <CommandBinding Command="ApplicationCommands.Copy" Executed="Copy_Executed"/>
+                            <CommandBinding Command="ApplicationCommands.Cut" Executed="Cut_Executed"/>
+                            <CommandBinding Command="ApplicationCommands.Paste" Executed="Paste_Executed"/>
+                            <CommandBinding Command="ApplicationCommands.Delete" Executed="Delete_Executed"/>
+                        </DataGrid.CommandBindings>
                     </DataGrid>
                     <GridSplitter Width="5" Grid.Column="0"/>
-                    <DataGrid x:Name="eventBar" Grid.Column="1" ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Hidden" AutoGenerateColumns="False" CanUserAddRows="False" SelectionChanged="eventBar_SelectionChanged">
+                    <DataGrid x:Name="eventBar" Grid.Column="1" ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Hidden" AutoGenerateColumns="False" CanUserAddRows="False" GotFocus="eventBar_GotFocus" SelectionMode="Extended" ClipboardCopyMode="None" CellEditEnding="VBar_CellEditEnding" PreviewMouseWheel="ScrollMainPanel_PreviewMouseWheel">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Width="*" Header="事件" Binding="{Binding Event}"/>
+                            <DataGridTextColumn Width="*" Header="事件" Binding="{Binding Value}">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="TextWrapping" Value="Wrap"/>
+                                        <Setter Property="TextTrimming" Value="WordEllipsis"/>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
                         </DataGrid.Columns>
+                        <DataGrid.CommandBindings>
+                            <CommandBinding Command="ApplicationCommands.Copy" Executed="Copy_Executed"/>
+                            <CommandBinding Command="ApplicationCommands.Cut" Executed="Cut_Executed"/>
+                            <CommandBinding Command="ApplicationCommands.Paste" Executed="Paste_Executed"/>
+                            <CommandBinding Command="ApplicationCommands.Delete" Executed="Delete_Executed"/>
+                        </DataGrid.CommandBindings>
                     </DataGrid>
                     <GridSplitter Width="5" Grid.Column="1"/>
-                    <DataGrid x:Name="weekBar" Grid.Column="2" ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Hidden" AutoGenerateColumns="False" 
-                              SelectedCellsChanged="weekBar_SelectedCellsChanged" LostFocus="weekBar_LostFocus" SelectionUnit="Cell" CanUserAddRows="False" PreviewKeyDown="weekBar_PreviewKeyDown" HorizontalScrollBarVisibility="Visible"
+                    <DataGrid x:Name="weekBar" Grid.Column="2" ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Hidden" AutoGenerateColumns="False" PreviewMouseWheel="ScrollMainPanel_PreviewMouseWheel"
+                              SelectedCellsChanged="weekBar_SelectedCellsChanged" LostFocus="weekBar_LostFocus" SelectionUnit="Cell" CanUserAddRows="False" HorizontalScrollBarVisibility="Visible" SelectionMode="Extended" CellEditEnding="weekBar_CellEditEnding"
                       >
-                        
+
                         <DataGrid.Columns>
                             <DataGridTextColumn Width="*" Header="周一" Binding="{Binding Monday}"/>
                             <DataGridTextColumn Width="*" Header="周二" Binding="{Binding Tuesday}"/>
@@ -171,16 +256,23 @@
                             </Style>
                         </DataGrid.RowStyle>
                         <DataGrid.CellStyle>
-                            <Style TargetType="DataGridCell">
+                            <Style TargetType="DataGridCell" BasedOn="{StaticResource DataGridCellStyle}">
                                 <Setter Property="HorizontalAlignment" Value="Stretch"/>
                                 <Setter Property="VerticalAlignment" Value="Stretch"/>
                             </Style>
                         </DataGrid.CellStyle>
+                        <DataGrid.CommandBindings>
+                            <CommandBinding Command="ApplicationCommands.Copy" Executed="Copy_Executed"/>
+                            <CommandBinding Command="ApplicationCommands.Cut" Executed="Cut_Executed"/>
+                            <CommandBinding Command="ApplicationCommands.Paste" Executed="Paste_Executed"/>
+                            <CommandBinding Command="ApplicationCommands.Delete" Executed="Delete_Executed"/>
+                        </DataGrid.CommandBindings>
                     </DataGrid>
                 </Grid>
 
-            </ScrollViewer>
+            </hc:ScrollViewer>
 
         </DockPanel>
+        <hc:LoadingCircle x:Name="loadingCircle" Style="{StaticResource LoadingCircleLarge}" Visibility="Collapsed"/>
     </Grid>
 </hc:Window>

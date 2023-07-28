@@ -1,0 +1,67 @@
+@font-face {
+  font-family: "iconfont"; /* Project id 3962174 */
+  src: url('iconfont.woff2?t=1679726740830') format('woff2'),
+       url('iconfont.woff?t=1679726740830') format('woff'),
+       url('iconfont.ttf?t=1679726740830') format('truetype');
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-sousuo:before {
+  content: "\eafe";
+}
+
+.icon-niantie:before {
+  content: "\e639";
+}
+
+.icon-bianjibiaoge:before {
+  content: "\eabc";
+}
+
+.icon-fuzhi:before {
+  content: "\eac1";
+}
+
+.icon-jianqie:before {
+  content: "\eac2";
+}
+
+.icon-pinleijianshao:before {
+  content: "\eaf9";
+}
+
+.icon-pinleishanchu:before {
+  content: "\eafa";
+}
+
+.icon-pinleizengjia:before {
+  content: "\eafb";
+}
+
+.icon-shanchu:before {
+  content: "\eafc";
+}
+
+.icon-ic-template:before {
+  content: "\e7a1";
+}
+
+.icon-icon_customermanagement:before {
+  content: "\e858";
+}
+
+.icon-datamap:before {
+  content: "\e600";
+}
+
+.icon-ic-planner:before {
+  content: "\e78b";
+}
+
